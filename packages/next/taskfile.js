@@ -2263,9 +2263,21 @@ export async function ncc_https_proxy_agent(task, opts) {
     .target('src/compiled/https-proxy-agent')
 }
 
+export async function build_next_error_code_swc_plugin(task, opts) {
+  await execa.command('cargo build --target wasm32-wasip1 --release', {
+    stdio: 'inherit',
+    cwd: join(__dirname, '../../crates/next-error-code-swc-plugin'),
+  })
+}
+
 export async function precompile(task, opts) {
   await task.parallel(
-    ['browser_polyfills', 'copy_ncced', 'copy_styled_jsx_assets'],
+    [
+      'browser_polyfills',
+      'copy_ncced',
+      'copy_styled_jsx_assets',
+      'build_next_error_code_swc_plugin',
+    ],
     opts
   )
 

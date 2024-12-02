@@ -8,6 +8,16 @@ const path = require('path')
 // eslint-disable-next-line import/no-extraneous-dependencies
 const transform = require('@swc/core').transform
 
+// Bind an error code to every internal error we throw
+// Also update /error-codes/*
+const NEXT_ERROR_CODE_SWC_PLUGIN = [
+  path.join(
+    __dirname,
+    '../../crates/next-error-code-swc-plugin/target/wasm32-wasip1/release/next_error_code_swc_plugin.wasm'
+  ),
+  {},
+]
+
 module.exports = function (task) {
   // eslint-disable-next-line require-yield
   task.plugin(
@@ -47,6 +57,7 @@ module.exports = function (task) {
           },
           experimental: {
             keepImportAttributes: esm,
+            plugins: [NEXT_ERROR_CODE_SWC_PLUGIN],
           },
           transform: {
             react: {
@@ -92,6 +103,7 @@ module.exports = function (task) {
           },
           experimental: {
             keepImportAttributes: esm,
+            plugins: [NEXT_ERROR_CODE_SWC_PLUGIN],
           },
           transform: {
             react: {
