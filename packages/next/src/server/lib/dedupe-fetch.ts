@@ -90,7 +90,7 @@ export function createDedupeFetch(originalFetch: typeof fetch) {
     const original = originalFetch(resource, options)
     cacheEntries[cacheKey] = original.then(
       (response) =>
-        new Proxy(response.clone(), {
+        new Proxy(response, {
           get(target, prop) {
             if (
               typeof prop === 'string' &&
